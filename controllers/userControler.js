@@ -65,10 +65,33 @@ exports.getUsers = async(req, res)=>{
         })
     }
 }
-exports.editUser = (req, res)=>{}
+
+// update user 
+exports.editUser = async (req, res)=>{
+    try {
+        const user = await User.findByIdAndUpdate(req.params.id, req.body);
+        res.status(201).json({
+            success: true,
+            message: "User updated successfully."
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+// delete user
 exports.deleteUser = async(req, res)=>{
     try {
-        
+        const userId = req.params.id;
+        const user = await User.findByIdAndDelete(userId);
+        res.status(201).json({
+            success: true,
+            message: "User deleted successfully"
+        })
     } catch (error) {
         console.log(error);
         res.status(400).json({
